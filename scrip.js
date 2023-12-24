@@ -3,7 +3,7 @@ const PLAYER_O_CLASS = 'player-o';
 const WINNING_COMBINATIONS = [
     // Horizontal combinations
     [0, 1, 2],
-    [3, 4, 5],
+    [3, 4, 5],  
     [6, 7, 8],
     // Vertical combinations
     [0, 3, 6],
