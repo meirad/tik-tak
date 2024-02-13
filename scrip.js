@@ -18,14 +18,14 @@ const cellElements = document.querySelectorAll('[data-cell]');
 const boardElement = document.getElementById('board');
 const winningMessageElement = document.getElementById('winningMessage');
 const winningMessageTextElement = document.getElementById('winningMessageText');
-const restartButton = document.getElementById('restartButton'); // replace 'restartButton' with the id of your button in the HTML
+const restartButton = document.getElementById('restartButton'); 
 restartButton.addEventListener('click', resetGame);
 
 let isPlayer_O_Turn = false;
 let isGameActive = true;
 let player_x_score = localStorage.getItem('player_x_score') ? parseInt(localStorage.getItem('player_x_score')) : 0;
 let player_o_score = localStorage.getItem('player_o_score') ? parseInt(localStorage.getItem('player_o_score')) : 0;
-let draw_score = 0;
+let draw_score = localStorage.getItem('draw_score') ? parseInt(localStorage.getItem('draw_score')) : 0;
 
 startGame();
 
@@ -33,14 +33,14 @@ function startGame() {
     isPlayer_O_Turn = false;
     isGameActive = true;
     cellElements.forEach(cell => {
-        cell.classList.remove(PLAYER_X_CLASS); // Remove all classes from the cell element (for styling)  
-        cell.classList.remove(PLAYER_O_CLASS); // Remove all classes from the cell element (for styling) // This is to prevent the classes from stacking up when the game is restarted
-        cell.removeEventListener('click', handleCellClick); // Remove all event listeners from the cell element (for gameplay)  // This is to prevent the event listeners from stacking up when the game is restarted
-        cell.addEventListener('click', handleCellClick, { once: true }); // Add an event listener to the cell element (for gameplay) / / { once: true } means that the event listener will be removed after the first click
+        cell.classList.remove(PLAYER_X_CLASS); 
+        cell.classList.remove(PLAYER_O_CLASS); 
+        cell.removeEventListener('click', handleCellClick); 
+        cell.addEventListener('click', handleCellClick, { once: true }); 
     });
 
     setBoardHoverClass();
-    winningMessageElement.classList.remove('show'); // Hide the winning message
+    winningMessageElement.classList.remove('show'); 
 }
 
 function handleCellClick(e) {
@@ -74,33 +74,27 @@ function endGame(draw) {
             player_x_score++;
         }
     }
-    // Instead of adding a class to the whole element, directly change the text of the specific element
     winningMessageTextElement.innerText = `${winningMessageTextElement.innerText} (Click to reset)`;
     displayScores();
 }
 
-// At the start of your script
 
 
-// Display the scores
 displayScores();
-function resetGame() {
-    // Save scores to local storage
+function resetGame() { 
     localStorage.setItem('player_x_score', player_x_score);
     localStorage.setItem('player_o_score', player_o_score);
-
-    // Reload the page
+    localStorage.setItem('draw_score', draw_score);
     location.reload();
 }
-resetButton.addEventListener('click', resetGame);
 
 function isDraw() {
     return [...cellElements].every(cell => cell.classList.contains(PLAYER_X_CLASS) || cell.classList.contains(PLAYER_O_CLASS));
 }
 
 function placeMark(cell, currentClass) {
-    cell.classList.add(currentClass); // For styling the cell
-    cell.innerText = isPlayer_O_Turn ? 'O' : 'X'; // For displaying O or X in the cell
+    cell.classList.add(currentClass); 
+    cell.innerText = isPlayer_O_Turn ? 'O' : 'X';
 }
 
 function swapTurns() {
@@ -127,4 +121,4 @@ function displayScores() {
     document.getElementById('playerXScore').innerText = `Player X: ${player_x_score}`;
     document.getElementById('playerOScore').innerText = `Player O: ${player_o_score}`;
     document.getElementById('drawScore').innerText = `Draws: ${draw_score}`;
-}
+} 
